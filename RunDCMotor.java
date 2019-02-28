@@ -5,7 +5,8 @@ public class RunDCMotor {
     
     public static void main(String[] args) {
         
-		r.setPort("/dev/tty.usbmodem14301"); // Set port to COM3
+		r.setPort("/dev/tty.usbmodem14301"); // Set port to your own computer port
+	 
 		r.connect();
                 
                 //move 3m
