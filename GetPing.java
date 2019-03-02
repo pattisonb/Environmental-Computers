@@ -13,7 +13,7 @@ public class GetPing
 		RXTXRobot r = new ArduinoNano(); // Create RXTXRobot object
 		r.setPort("COM3"); // Set the port to COM3
 		r.connect();
-		for (int x=0; x < 100; ++x)
+		for (int x=0; x < 100; ++x)//run the ping sensors 100 times?
 		{
 			//Read the ping sensor value, which is connected to pin 12
 			int leftDistance = r.getPing(LEFT_PIN);
