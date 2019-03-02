@@ -22,14 +22,15 @@ public class MoveServo
 		
 		//turn the servo for a total of 180 degrees for 5 degrees at a time
 		//if string returned from the beacon matches the designated string of the beacon, stop the servo from turning 
+		int angleTurned = 0;
 		for(int i = 0; i <= 180; i+=5) {
-			int angleTurned = 0;
 			r.runPCAServo(0, i);
 			char designatedCode = ' '; //input the designated letter for the beacons on the spot
 			char beacon = r.getIRChar(); //the code received from the beacon
 			if(designatedCode == beacon) {
 				angleTurned = i; // return the angle that the servo has turned
 			}
+			else{System.out.println("Beacon not found");}
 		}
 		//now write codes that turn the motors according to "angleTurned" 
 		
