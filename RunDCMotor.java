@@ -22,7 +22,7 @@ public class RunDCMotor {
 	}
 	    
 	public static void RotateRobotNegative() {
-	    r.runTwoPCAMotor(0, -150, 1, -150, 800); //rotates the robot approximately 90 degrees when battery is at 13.0 V
+	    r.runTwoPCAMotor(0, -150, 1, -150, 800); //rotates the robot approximately -90 degrees when battery is at 13.0 V
 	    //motor strength 150, channels 0 and 1, time: .8 seconds
 	}
 }
