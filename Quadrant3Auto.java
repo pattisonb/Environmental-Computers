@@ -29,9 +29,29 @@ public class Quadrant3Auto {
                 r.runTwoPCAMotor(14, 235, 15, -200, 500); //move through the hole in the wall, calibrate for time
                 
                 //second task: locate to volcano
-                int[] angles = {0, 0, 0}; //array of angles detected
+                FindBeacon('x');
+                
+                //third task: drive onto volcano and stop on slope
+                r.runTwoPCAMotor(14, 235, 15, -200, 4500); //calibrate for distance to volcano
+                //or could possibly use loop with bump sensor?
+                
+                //fourth task: take inclinometer reading
+                
+    }
+    
+    public static void RotateRobotPositive(int time) {
+	    r.runTwoPCAMotor(14, 180, 15, 180, time); //rotates the robot 90 degrees when battery is at 13.0 V //1325 for 90
+	    //motor strength 180, channels 0 and 1, time: .8 seconds
+	}
+	    
+    public static void RotateRobotNegative(int time) {
+	    r.runTwoPCAMotor(14, -150, 15, -150, time); //rotates the robot approximately -90 degrees when battery is at 13.0 V //850 for 90
+	    //motor strength 150, channels 0 and 1, time: .8 seconds
+	}
+    public static void FindBeacon (char beaconChar) {
+        int[] angles = {0, 0, 0}; //array of angles detected
                 char beaconInput = '0';
-                char beaconOutput = 'K'; //character sent out by beacon
+                char beaconOutput = beaconChar; //character sent out by beacon CHANGE THIS!!!
                 int avgAngle = 0;
                 int rotationAngle = 0;
                 int timeAngle = 0; //time based on rotaitonAngle
@@ -77,22 +97,5 @@ public class Quadrant3Auto {
                     r.sleep(2000);
                 }
                 r.runPCAServo(0, 90);
-                
-                //third task: drive onto volcano and stop on slope
-                r.runTwoPCAMotor(14, 235, 15, -200, 4500); //calibrate for distance to volcano
-                //or could possibly use loop with bump sensor?
-                
-                //fourth task: take inclinometer reading
-                
     }
-    
-    public static void RotateRobotPositive(int time) {
-	    r.runTwoPCAMotor(14, 180, 15, 180, time); //rotates the robot 90 degrees when battery is at 13.0 V //1325 for 90
-	    //motor strength 180, channels 0 and 1, time: .8 seconds
-	}
-	    
-    public static void RotateRobotNegative(int time) {
-	    r.runTwoPCAMotor(14, -150, 15, -150, time); //rotates the robot approximately -90 degrees when battery is at 13.0 V //850 for 90
-	    //motor strength 150, channels 0 and 1, time: .8 seconds
-	}
 }
