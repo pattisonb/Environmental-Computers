@@ -12,10 +12,50 @@ public class Quadrant1Auto {
                 r.runTwoPCAMotor(14, 235, 15, -200, 4900); //moving robot three meters in this, adjust for length of bridge
                 
                 //second task, locate volcano and naviagate towards it
+                FindBeacon('x');
                 
-                int[] angles = {0, 0, 0}; //array of angles detected
+                //third task: reach the summit of the volcano
+                r.runTwoPCAMotor(14, 235, 15, -200, 4900); //moving robot three meters in this, adjust for distance to summit
+                
+                //fourth task: turn robot and navigate down volcano
+                RotateRobotPositive(1325); //rotating robot 90º to the right
+                r.runTwoPCAMotor(14, 235, 15, -200, 4900); //moving robot three meters in this, adjust for distance to the bottom of the volcano
+                
+                //fifth task: find surface water region
+                //based on map on canvas, robot should rotate about 15º after volcano
+                RotateRobotPositive(89); //rotating robot
+                //moving forward for a little bit until next to water region
+                r.runTwoPCAMotor(14, 235, 15, -200, 1000);
+                RotateRobotPositive(1325); //rotating robot 90º to the right to face water region
+                //move foward until at water region
+                //could utilize bump sensors here but could also just drive until it hits container
+                 r.runTwoPCAMotor(14, 235, 15, -200, 1000);
+                 
+                 //sixth task: deploy conductivty prode into surface water region
+                 r.runPCAServo(1, 90); //put probe servo on channel 1 while navigation servos is on channel 0
+                 
+                 //seventh task: meausure conductivity
+
+                System.exit(0);
+    }
+    
+    
+    
+    //robot rotation functions
+    public static void RotateRobotPositive(int time) {
+	    r.runTwoPCAMotor(14, 180, 15, 180, time); //rotates the robot 90 degrees when battery is at 13.0 V //1325 for 90
+	    //motor strength 180, channels 0 and 1, time: .8 seconds
+	}
+	    
+    public static void RotateRobotNegative(int time) {
+	    r.runTwoPCAMotor(14, -150, 15, -150, time); //rotates the robot approximately -90 degrees when battery is at 13.0 V //850 for 90
+	    //motor strength 150, channels 0 and 1, time: .8 seconds
+	}
+    
+    public static void FindBeacon (char beaconChar) {
+        int[] angles = {0, 0, 0}; //array of angles detected
                 char beaconInput = '0';
-                char beaconOutput = 'K'; //character sent out by beacon
+                char beaconOutput = beaconChar; //character sent out by beacon CHANGE THIS!!!
                 int avgAngle = 0;
                 int rotationAngle = 0;
                 int timeAngle = 0; //time based on rotaitonAngle
@@ -61,42 +101,5 @@ public class Quadrant1Auto {
                     r.sleep(2000);
                 }
                 r.runPCAServo(0, 90);
-                
-                //third task: reach the summit of the volcano
-                r.runTwoPCAMotor(14, 235, 15, -200, 4900); //moving robot three meters in this, adjust for distance to summit
-                
-                //fourth task: turn robot and navigate down volcano
-                RotateRobotPositive(1325); //rotating robot 90º to the right
-                r.runTwoPCAMotor(14, 235, 15, -200, 4900); //moving robot three meters in this, adjust for distance to the bottom of the volcano
-                
-                //fifth task: find surface water region
-                //based on map on canvas, robot should rotate about 15º after volcano
-                RotateRobotPositive(89); //rotating robot
-                //moving forward for a little bit until next to water region
-                r.runTwoPCAMotor(14, 235, 15, -200, 1000);
-                RotateRobotPositive(1325); //rotating robot 90º to the right to face water region
-                //move foward until at water region
-                //could utilize bump sensors here but could also just drive until it hits container
-                 r.runTwoPCAMotor(14, 235, 15, -200, 1000);
-                 
-                 //sixth task: deploy conductivty prode into surface water region
-                 r.runPCAServo(1, 90); //put probe servo on channel 1 while navigation servos is on channel 0
-                 
-                 //seventh task: meausure conductivity
-
-                System.exit(0);
     }
-    
-    
-    
-    //robot rotation functions
-    public static void RotateRobotPositive(int time) {
-	    r.runTwoPCAMotor(14, 180, 15, 180, time); //rotates the robot 90 degrees when battery is at 13.0 V //1325 for 90
-	    //motor strength 180, channels 0 and 1, time: .8 seconds
-	}
-	    
-    public static void RotateRobotNegative(int time) {
-	    r.runTwoPCAMotor(14, -150, 15, -150, time); //rotates the robot approximately -90 degrees when battery is at 13.0 V //850 for 90
-	    //motor strength 150, channels 0 and 1, time: .8 seconds
-	}
 }
