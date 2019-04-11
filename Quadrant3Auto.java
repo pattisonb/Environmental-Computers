@@ -2,46 +2,47 @@ import rxtxrobot.*;
 
 public class Quadrant3Auto {
     static RXTXRobot r = new ArduinoNano();
+    static AnalogPin temp;
     
     public static void main(String[] args) {
         
 		r.setPort("/dev/tty.usbmodem14301"); 
 		r.connect();
                 int distance;
-                int PING_PIN1 = 13;
-                int PING_PIN2 = 11;
+                int PING_PIN = 9;
+                int INC_PIN = 1;
                 
-                //first task: navigate through movebale gaps
-                distance = r.getPing(PING_PIN1);
-                while (distance < 20) {
-                    r.runTwoPCAMotor(14, 235, 15, -200, 500);//move forward for x amount of time
-                    distance = r.getPing(PING_PIN1);
+                r.runTwoPCAMotor(14, -165, 15, 200, 1100);
+//                //first task: navigate through movebale gaps
+                while (r.getPing(PING_PIN) <= 60) {
+                    r.runTwoPCAMotor(14, -165, 15, 200, 200);//move forward for x amount of time
                 }
-                RotateRobotPositive(1325); //rotate 90 to face hole in the wall
-                r.runTwoPCAMotor(14, 235, 15, -200, 500); //move through the hole in the wall, calibrate for time
-                RotateRobotPositive(1325); //rotate 90 to run parralel to next section of blocks
-                distance = r.getPing(PING_PIN2);
-                while (distance < 20) {
-                    r.runTwoPCAMotor(14, 235, 15, -200, 500);//move forward for x amount of time
-                    distance = r.getPing(PING_PIN2);
+                r.sleep(00);
+//                r.runTwoPCAMotor(14, 235, 15, -235, 150);
+//                r.sleep(200);
+                RotateRobotNegative(875);
+                r.sleep(700);
+                r.runTwoPCAMotor(14, 235, 15, -235, 1300);
+                r.sleep(700);
+                RotateRobotPositive(1350);
+                r.sleep(500);
+                while (r.getPing(PING_PIN) <= 40) {
+                    r.runTwoPCAMotor(14, 175, 15, -125, 200);//move forward for x amount of time
                 }
-                RotateRobotNegative(850); //rotate 90 to face hole in the wall
-                r.runTwoPCAMotor(14, 235, 15, -200, 500); //move through the hole in the wall, calibrate for time
-                
-                //second task: locate to volcano
-                FindBeacon('x');
-                
-                //third task: drive onto volcano and stop on slope
-                r.runTwoPCAMotor(14, 235, 15, -200, 4500); //calibrate for distance to volcano
-                //or could possibly use loop with bump sensor?
-                
-                //fourth task: take inclinometer reading
-                
+                RotateRobotNegative(900);
+                r.runTwoPCAMotor(14, 235, 15, -235, 1500);
+                FindBeacon('Y');
+                r.runTwoPCAMotor(14, 174, 15, -125, 3000);
+                r.runTwoPCAMotor(14, 350, 15, -250, 3000);
+                Inclinometer(1);
+                 
+r.close();
     }
     
     public static void RotateRobotPositive(int time) {
 	    r.runTwoPCAMotor(14, 180, 15, 180, time); //rotates the robot 90 degrees when battery is at 13.0 V //1325 for 90
 	    //motor strength 180, channels 0 and 1, time: .8 seconds
+            r.sleep(200);
 	}
 	    
     public static void RotateRobotNegative(int time) {
@@ -49,53 +50,29 @@ public class Quadrant3Auto {
 	    //motor strength 150, channels 0 and 1, time: .8 seconds
 	}
     public static void FindBeacon (char beaconChar) {
-        int[] angles = {0, 0, 0}; //array of angles detected
                 char beaconInput = '0';
                 char beaconOutput = beaconChar; //character sent out by beacon CHANGE THIS!!!
-                int avgAngle = 0;
-                int rotationAngle = 0;
-                int timeAngle = 0; //time based on rotaitonAngle
-                
-                for(int i = 30; i <= 180; i+=10) {
-                    r.runPCAServo(0, i);
-                    for (int j = 0; j < 3; j ++) { //try to get angle five times to avoid random ir signals
-                            beaconInput = r.getIRChar(); //the code received from the beacon
-			if(beaconOutput == beaconInput) {
-                            angles[j] = i;
+                for(int i = 0; i <= 180; i+=10) {
+                            beaconInput = r.getIRChar();
+                            System.out.println(beaconInput);
+			if(beaconInput == beaconOutput) {
+                            break;
 			}
+                r.sleep(200);
+                RotateRobotNegative(100);
+                r.sleep(1000);
                 }
-                            if (angles[0] == angles[1] && angles[1] == angles[2] && beaconInput != '0') { //if all the angles are the same it updates the avgAngle
-                            avgAngle = i;
-                                if (angles[0] == 0) {
-                                    break;
-                                }
-                            }
-                            
                 }
-                System.out.println(avgAngle);
-                rotationAngle = 90 - avgAngle; //change rotation based on the way the robot is facing 
-                r.runPCAServo(0, 90); //make the servo point forwards
-                r.sleep(400);
-                if (rotationAngle == 0) { //if the beacon is right in front of the robot it will just go forwards
-                    r.runPCAServo(0, 90);
-                    r.sleep(300);
-                }
-                if (rotationAngle > 0) {
-                    timeAngle = ((2000)/(90/rotationAngle)); //change the time function adjusted on the angle
-                    r.runPCAServo(0, rotationAngle); //point servo towards beacon
-                    r.sleep(2000);
-                    RotateRobotPositive(timeAngle);
-                    r.sleep(2000);
-                }
-                if (rotationAngle < 0) {
-                    rotationAngle = rotationAngle * -1; //this value will be negative so multiplied by -1
-                    timeAngle = ((850)/(120/rotationAngle)); //dividing by 120 because of results needing more rotation
-                    System.out.println(rotationAngle);
-                    System.out.print(timeAngle);
-                    r.sleep(2000);
-                    RotateRobotNegative(timeAngle);
-                    r.sleep(2000);
-                }
-                r.runPCAServo(0, 90);
+
+    public static void Inclinometer(int ANALOG_PIN) {
+        double sum = 0;
+        double average = 0;
+        for (int i = 0; i < 5; i++) {
+            r.refreshAnalogPins();
+            temp = r.getAnalogPin(ANALOG_PIN);
+            sum += temp.getValue();
+        }
+        average = sum / 5;
+        System.out.println(("The angle of incline is: " + (temp.getValue() - 626) / 3.55));
     }
 }
