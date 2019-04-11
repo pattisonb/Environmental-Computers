@@ -7,42 +7,26 @@ public class Quadrant2Auto {
         
 		r.setPort("/dev/tty.usbmodem14301"); 
 		r.connect();
-                
-                //first task: naviagte to swamp
-                //unsure how to code for bump sensor so pseudocode in place of real code
-                //while(not bumping into wall)
-                    r.runTwoPCAMotor(14, 235, 15, -200, 1000);//move forward for x amount of time
-                RotateRobotPositive(1325);//after bumping into first wall rotate robot 90º to the right
-                //while(not bumping into wall)
-                    r.runTwoPCAMotor(14, 235, 15, -200, 1000);//move forward for x amount of time
-                    
-                //second task: deploy scoop
-                //unsure how this is going to work so a simple servo rotation function included
-                r.runPCAServo(0, 90); //not sure what angle we will have to set it to
-                
-                //third task: retrieve salamanders
-                //again, unsure how this is going to work so a simple servo rotation function included
-                r.runPCAServo(0, 90); //not sure what angle we will have to set it to
-                
-                //fourth task naviagte to return zone
-                //gonna use a ping sensor here since the bump sensor will be blocked my scoop
-                int PING_PIN = 12;
-                int distance = 0;
-                distance = r.getPing(PING_PIN);
-                while (distance > 25) {
-                    r.runTwoPCAMotor(14, 235, 15, -200, 500);//move forward for x amount of time
-                    distance = r.getPing(PING_PIN);
-                }
-                //rotate robot to the left
-                RotateRobotNegative(850); //rotating 90º
-                //then drive until at return zone so maybe once within ten cm?
-                while (distance > 10) {
-                    r.runTwoPCAMotor(14, 235, 15, -200, 500);//move forward for x amount of time
-                    distance = r.getPing(PING_PIN);
-                }
-                
-                //fifth task: deliver salamanders
-                r.runPCAServo(0, 90); //not sure what angle we will have to set it to
+
+                r.runTwoPCAMotor(14, 235, 15, -180, 3200);//move forward for x amount of time
+                RotateRobotPositive(1325);
+                r.sleep(1500);
+//                
+                FindBeacon('S');
+                r.sleep(2000);
+                r.runTwoPCAMotor(14, 235, 15, -170, 800);
+                RotateRobotPositive(100);
+            
+                r.sleep(200);
+                r.runTwoPCAMotor(14, 235, 15, -170, 880);
+                r.sleep(2500);
+                r.runPCATimedServo(9, 0, 3000);
+                r.sleep(1000);
+
+                r.runTwoPCAMotor(14, -235, 15, 235, 1800);
+                r.sleep(200);
+                FindBeacon('G');
+                r.runTwoPCAMotor(14, 245, 15, -170, 3100);
                 
                 System.exit(0);            
     }
@@ -56,5 +40,19 @@ public class Quadrant2Auto {
 	    r.runTwoPCAMotor(14, -150, 15, -150, time); //rotates the robot approximately -90 degrees when battery is at 13.0 V //850 for 90
 	    //motor strength 150, channels 0 and 1, time: .8 seconds
 	}
+    public static void FindBeacon (char beaconChar) {
+                char beaconInput = '0';
+                char beaconOutput = beaconChar; //character sent out by beacon CHANGE THIS!!!
+                for(int i = 0; i <= 180; i+=10) {
+                            beaconInput = r.getIRChar();
+                            System.out.println(beaconInput);
+			if(beaconInput == beaconOutput) {
+                            break;
+			}
+                r.sleep(200);
+                RotateRobotPositive(100);
+                r.sleep(1000);
+                }
+                }
 }
     
