@@ -11,13 +11,12 @@ public class Quadrant3Auto {
                 int distance;
                 int PING_PIN = 9;
                 int INC_PIN = 1;
-                
-                r.runTwoPCAMotor(14, -165, 15, 200, 1100);
+////                
+                r.runTwoPCAMotor(14, -165, 15, 185, 1100);
 //                //first task: navigate through movebale gaps
                 while (r.getPing(PING_PIN) <= 60) {
                     r.runTwoPCAMotor(14, -165, 15, 200, 200);//move forward for x amount of time
                 }
-                r.sleep(00);
 //                r.runTwoPCAMotor(14, 235, 15, -235, 150);
 //                r.sleep(200);
                 RotateRobotNegative(875);
