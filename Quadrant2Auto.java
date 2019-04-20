@@ -26,6 +26,7 @@ public class Quadrant2Auto {
                 r.runTwoPCAMotor(14, -235, 15, 235, 1800);
                 r.sleep(200);
                 FindBeacon('G');
+                RotateRobotPositive(100);
                 r.runTwoPCAMotor(14, 245, 15, -170, 3100);
                 
                 System.exit(0);            
