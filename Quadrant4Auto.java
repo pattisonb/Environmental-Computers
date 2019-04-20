@@ -15,15 +15,16 @@ public class Quadrant4Auto {
                 r.sleep(200);
                 r.runTwoPCAMotor(14, 235, 15, -200, 1000);
                 r.sleep(200);
-                r.runPCAServo(8, 150);
-                r.sleep(3000);
-                double celsius = (getThermistorReading() - 677.7186471)/-6.93063423; 
-                System.out.printf("In Degrees Celsius: %.2f\n", celsius);
                 r.runPCAServo(8, 90);
+                r.sleep(3000);
+r.runTwoPCAMotor(14, 235, 15, -200, 600);
+                double celsius = ((getThermistorReading() - 677.7186471))/-6.93063423; 
+                System.out.printf("In Degrees Celsius: %.2f\n", celsius);
+                r.runPCAServo(8, 180);
                 r.sleep(200);
                 r.runTwoPCAMotor(14, -235, 15, 200, 200);
                 r.sleep(200);
-                RotateRobotNegative(825);
+                RotateRobotNegative(870);
                 r.sleep(200);
                 r.runTwoPCAMotor(14, 235, 15, -200, 1000);
                 r.sleep(200);
@@ -34,9 +35,9 @@ public class Quadrant4Auto {
                 FindBeaconPos('N');
                 RotateRobotPositive(100);
                 r.runTwoPCAMotor(14, 235, 15, -200, 2800);
-                RotateRobotPositive(1500);
-                r.runTwoPCAMotor(14, 235, 15, -200, 2000);
-                
+                RotateRobotPositive(3000);
+                r.runTwoPCAMotor(14, 400, 15, -400, 2000);
+//                
                 System.exit(0);
     }
     
