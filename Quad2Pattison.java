@@ -9,25 +9,30 @@ public class Quadrant2Auto {
 		r.connect();
                    r.runPCAServo(9, 45);
                    r.sleep(300);
-                r.runTwoPCAMotor(14, 235, 15, -180, 2600);//move straight forward
+                r.runTwoPCAMotor(14, 200, 15, -170, 2900);//move forward for x amount of time
                 //RotateRobotPositive(100);
                 r.sleep(1500);
-                
-                FindBeacon('S');//find beacon
+                RotateRobotPositive(150);
+                r.sleep(1500);
+                FindBeacon('S');
                 r.sleep(2000);
-                r.runTwoPCAMotor(14, 235, 15, -170, 1400);//go straight to the salamander zone
-                RotateRobotPositive(75);//turn right
-            
+                RotateRobotPositive(50);
+                r.sleep(750);
+                r.runTwoPCAMotor(14, 220, 15, -200, 1400);            
                 r.sleep(200);
-                r.runTwoPCAMotor(14, 235, 15, -170, 925);//go straight to collect the salamanders
-                r.sleep(2500);
-                r.runPCAServo(9, 180);//move the arm down to secure the salamanders                
+                r.runTwoPCAMotor(14, 225, 15, -200, 700);
+                r.sleep(1500);
+                r.runPCAServo(9, 180);                
                 r.sleep(1000);
 
-                r.runTwoPCAMotor(14, -235, 15, 235, 1800);
-                r.sleep(200);
+                r.runTwoPCAMotor(14, -235, 15, 235, 1900);
+                r.sleep(2000);
                 FindBeacon('G');
-                r.runTwoPCAMotor(14, 245, 15, -170, 3100);
+                //RotateRobotPositive(415);
+                r.runTwoPCAMotor(14, 245, 15, -180, 900);
+                r.sleep(1500);
+                r.runTwoPCAMotor(14, 245, 15, -190, 1100);
+                r.runPCAServo(9, 45);
                 
                 r.close();            
     }
@@ -51,7 +56,7 @@ public class Quadrant2Auto {
                             break;
 			}
                 r.sleep(200);
-                RotateRobotPositive(50);
+                r.runTwoPCAMotor(14, 140, 15, 140, 130);
                 r.sleep(1000);
                 }
                 }
