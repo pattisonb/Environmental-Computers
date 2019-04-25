@@ -6,32 +6,39 @@ public class Quadrant3Auto {
     
     public static void main(String[] args) {
         
-		r.setPort("/dev/tty.usbmodem14301"); 
+		r.setPort("COM3"); 
 		r.connect();
                 int distance;
                 int PING_PIN = 9;
                 int INC_PIN = 1;
 ////                
-                r.runTwoPCAMotor(14, -165, 15, 185, 1100);
+                r.runTwoPCAMotor(14, -145, 15, 205, 1100); //move straight
 //                //first task: navigate through movebale gaps
                 while (r.getPing(PING_PIN) <= 60) {
                     r.runTwoPCAMotor(14, -165, 15, 200, 200);//move forward for x amount of time
-                }
+                }//find gap using ping sensor
 //                r.runTwoPCAMotor(14, 235, 15, -235, 150);
 //                r.sleep(200);
-                RotateRobotNegative(875);
+                RotateRobotNegative(390);//Turn left through the gap (550 at 13.3V, 390 at 13.0V)
                 r.sleep(700);
-                r.runTwoPCAMotor(14, 235, 15, -235, 1300);
+                r.runTwoPCAMotor(14, 235, 15, -260, 1650); //Go through the gap (1800 at 13.3V)
                 r.sleep(700);
-                RotateRobotPositive(1350);
-                r.sleep(500);
+                RotateRobotPositive(1060); //turn right
+                r.sleep(2000);
+                r.runTwoPCAMotor(14, 245, 15, -265, 500); //go straight
                 while (r.getPing(PING_PIN) <= 40) {
                     r.runTwoPCAMotor(14, 175, 15, -125, 200);//move forward for x amount of time
-                }
-                RotateRobotNegative(900);
-                r.runTwoPCAMotor(14, 235, 15, -235, 1500);
-                FindBeacon('Y');
-                r.runTwoPCAMotor(14, 174, 15, -125, 3000);
+                }//find gap using ping sensor
+                r.sleep(1000);
+                RotateRobotNegative(950);//turn left
+                r.runTwoPCAMotor(14, 235, 15, -235, 1600);//go through the gap
+                r.sleep(2000);
+                RotateRobotPositive(430);//turn right
+                r.sleep(2000);
+                r.runTwoPCAMotor(14, 235, 15, -235, 600);//go right for a little so that robot can turn and find beacon
+                r.sleep(4000);
+                FindBeacon('Y');//find beacon
+                r.runTwoPCAMotor(14, 174, 15, -125, 3000);//go up the ramp
                 r.runTwoPCAMotor(14, 350, 15, -250, 3000);
                 Inclinometer(1);
                  
