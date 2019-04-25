@@ -9,19 +9,19 @@ public class Quadrant2Auto {
 		r.connect();
                    r.runPCAServo(9, 45);
                    r.sleep(300);
-                r.runTwoPCAMotor(14, 235, 15, -180, 2600);//move forward for x amount of time
+                r.runTwoPCAMotor(14, 235, 15, -180, 2600);//move straight forward
                 //RotateRobotPositive(100);
                 r.sleep(1500);
                 
-                FindBeacon('S');
+                FindBeacon('S');//find beacon
                 r.sleep(2000);
-                r.runTwoPCAMotor(14, 235, 15, -170, 1400);
-                RotateRobotPositive(75);
+                r.runTwoPCAMotor(14, 235, 15, -170, 1400);//go straight to the salamander zone
+                RotateRobotPositive(75);//turn right
             
                 r.sleep(200);
-                r.runTwoPCAMotor(14, 235, 15, -170, 925);
+                r.runTwoPCAMotor(14, 235, 15, -170, 925);//go straight to collect the salamanders
                 r.sleep(2500);
-                r.runPCAServo(9, 180);                
+                r.runPCAServo(9, 180);//move the arm down to secure the salamanders                
                 r.sleep(1000);
 
                 r.runTwoPCAMotor(14, -235, 15, 235, 1800);
