@@ -1,24 +1,25 @@
 import rxtxrobot.*;
 
 public class Quadrant4Auto {
-    static RXTXRobot r = new ArduinoNano();
+   static RXTXRobot r = new ArduinoNano();
     
     public static void main(String[] args) {
                 r = new ArduinoUno();
-		r.setPort("/dev/tty.usbmodem14301"); 
+		r.setPort("COM3"); 
 		r.connect();
                 
                 r.runPCAServo(9, 45);
                 r.runPCAServo(8, 0);
-		r.runTwoPCAMotor(14, -215, 15, 235, 600); //drive backwards after ramp
+            	RotateRobotNegative(90);
+		r.runTwoPCAMotor(14, -215, 15, 235, 700); //drive backwards after ramp
+		RotateRobotNegative(90);
                 r.sleep(500);
 
                 FindBeaconPos('K');
                 r.sleep(200);
-                r.sleep(500);
-                r.runTwoPCAMotor(14, 235, 15, -200, 1200); //drive to temp site
-                r.sleep(500);
-                RotateRobotPositive(75); //adjust for temp site
+                r.runTwoPCAMotor(14, 235, 15, -200, 400); //drive to temp site (400 at 13.2V)
+                r.sleep(3000);
+                RotateRobotPositive(145); //adjust for temp site
                 r.sleep(500);
                 r.runTwoPCAMotor(14, 235, 15, -200, 600); //finsih driving to temp site
                 r.sleep(1500);
@@ -27,19 +28,23 @@ public class Quadrant4Auto {
                 double celsius = (getThermistorReading() - 677.7186471)/-6.93063423; 
                 System.out.printf("In Degrees Celsius: %.2f\n", celsius);
                 r.runPCAServo(8, 0);
-                r.sleep(1000);
-                r.runTwoPCAMotor(14, -215, 15, 260, 15); //back up a little but
-                r.sleep(1000);
-                RotateRobotNegative(450); //roatte 90
-                r.sleep(1000);
-                r.runTwoPCAMotor(14, 235, 15, -180, 2920); //drive forwards to wall
-                r.sleep(1000);
-                FindBeaconPos('N'); //find n
-                r.runTwoPCAMotor(14, 235, 15, -180, 2200); //drive to n
-                r.sleep(1000);
-              
                 
-		RotateRobotPositive(845); //rotatte to face bridge
+                r.sleep(1000);
+                r.runTwoPCAMotor(14, -215, 15, 260, 95); //back up a little
+                r.sleep(1000);
+                RotateRobotNegative(220); //roatte less than 90 so it can start to find 'N' at a closer distance; aka drive diagonally across the quadrant
+                r.sleep(1000);
+                r.runTwoPCAMotor(14, 235, 15, -180, 3350); //drive forwards to wall (2850 at 13.7V, 3050 at 13.2V, 3350 at 13.1V)
+                r.sleep(2000);
+                RotateRobotNegative(80);
+                r.sleep(2000);
+                
+                FindBeaconPos('N'); //find n
+                r.runTwoPCAMotor(14, 235, 15, -180, 1700); //drive to n (1400 at 13.5V, 1800 at 13.3V
+                r.sleep(5000);
+              
+                r.runTwoPCAMotor(14, -215, 15, 260, 55); //back up a little but
+		RotateRobotPositive(885); //rotatte to face bridge
 		r.sleep(2000);
                 r.runTwoPCAMotor(14, -215, 15, 260, 30); //set up to drive over bridg (backwards)
                 r.sleep(500); 
@@ -90,7 +95,7 @@ public class Quadrant4Auto {
                 r.sleep(1000);
                 }
                 }
-                public static void FindBeaconPos (char beaconChar) {
+           public static void FindBeaconPos (char beaconChar) {
                     r.refreshDigitalPins();
                 char beaconInput = '0';
                 char beaconOutput = beaconChar; //character sent out by beacon CHANGE THIS!!!
@@ -101,7 +106,7 @@ public class Quadrant4Auto {
                             break;
 			}
                 r.sleep(200);
-                RotateRobotPositive(50);
+                RotateRobotPositive(30);
                 r.sleep(1000);
                 }
                 }
