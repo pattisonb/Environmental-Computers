@@ -25,7 +25,7 @@ public class Quadrant4Auto {
                 */
                 r.runPCAServo(8, 180);
                 r.sleep(3000);
-                double celsius = (getThermistorReading() - 700.7186471)/-6.93063423; //(700 = 25.79 degrees)
+                double celsius = (getThermistorReading() - 691.7186471)/-6.93063423; 
                 System.out.printf("In Degrees Celsius: %.2f\n", celsius);
                 r.runPCAServo(8, 0);
                 
