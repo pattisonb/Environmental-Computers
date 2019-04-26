@@ -1,3 +1,4 @@
+//13.3V
 import rxtxrobot.*;
 
 public class Quadrant3Auto {
@@ -7,39 +8,46 @@ public class Quadrant3Auto {
     public static void main(String[] args) {
         
 		r.setPort("COM3"); 
-		r.connect();
-                int distance;
+		r.connect();      
+		
+		int distance;
                 int PING_PIN = 9;
                 int INC_PIN = 1;
 ////                
-                r.runTwoPCAMotor(14, -145, 15, 205, 1100); //move straight
+                r.runTwoPCAMotor(14, -145, 15, 220, 1100); //move straight
 //                //first task: navigate through movebale gaps
+                
+                //going through the first gap
                 while (r.getPing(PING_PIN) <= 60) {
                     r.runTwoPCAMotor(14, -165, 15, 200, 200);//move forward for x amount of time
                 }//find gap using ping sensor
 //                r.runTwoPCAMotor(14, 235, 15, -235, 150);
 //                r.sleep(200);
-                RotateRobotNegative(390);//Turn left through the gap (550 at 13.3V, 390 at 13.0V)
+                RotateRobotNegative(350);//Turn left through the gap (350 at 13.3V, 390 at 13.0V)
                 r.sleep(700);
-                r.runTwoPCAMotor(14, 235, 15, -260, 1650); //Go through the gap (1800 at 13.3V)
-                r.sleep(700);
-                RotateRobotPositive(1060); //turn right
+                r.runTwoPCAMotor(14, 245, 15, -260, 540); //Go through the gap (620 at 13.5)
                 r.sleep(2000);
-                r.runTwoPCAMotor(14, 245, 15, -265, 500); //go straight
+                RotateRobotPositive(900); //turn right (900 at 13.3V)
+                r.sleep(2000);
+                r.runTwoPCAMotor(14, 275, 15, -275, 500); //go straight
+               
+                //Going through the second gap
                 while (r.getPing(PING_PIN) <= 40) {
                     r.runTwoPCAMotor(14, 175, 15, -125, 200);//move forward for x amount of time
                 }//find gap using ping sensor
                 r.sleep(1000);
-                RotateRobotNegative(950);//turn left
-                r.runTwoPCAMotor(14, 235, 15, -235, 1600);//go through the gap
+                RotateRobotNegative(885);//turn left (885 at 13.1V)
+                r.runTwoPCAMotor(14, 235, 15, -235, 1750);//go through the gap
                 r.sleep(2000);
-                RotateRobotPositive(430);//turn right
+                RotateRobotPositive(250);//turn right
                 r.sleep(2000);
-                r.runTwoPCAMotor(14, 235, 15, -235, 600);//go right for a little so that robot can turn and find beacon
+                r.runTwoPCAMotor(14, 235, 15, -235, 500);//go right for a little so that robot can turn and find beacon
                 r.sleep(4000);
                 FindBeacon('Y');//find beacon
+                //r.runTwoPCAMotor(14, -174, 15, 125, 500);//go up the ramp
                 r.runTwoPCAMotor(14, 174, 15, -125, 3000);//go up the ramp
-                r.runTwoPCAMotor(14, 350, 15, -250, 3000);
+                //r.runTwoPCAMotor(14, 350, 15, -250, 3000);
+                r.sleep(8000);
                 Inclinometer(1);
                  
 r.close();
@@ -58,14 +66,14 @@ r.close();
     public static void FindBeacon (char beaconChar) {
                 char beaconInput = '0';
                 char beaconOutput = beaconChar; //character sent out by beacon CHANGE THIS!!!
-                for(int i = 0; i <= 180; i+=10) {
+                for(;;) {
                             beaconInput = r.getIRChar();
                             System.out.println(beaconInput);
 			if(beaconInput == beaconOutput) {
                             break;
 			}
                 r.sleep(200);
-                RotateRobotNegative(100);
+                RotateRobotNegative(20);
                 r.sleep(1000);
                 }
                 }
@@ -79,6 +87,6 @@ r.close();
             sum += temp.getValue();
         }
         average = sum / 5;
-        System.out.println(("The angle of incline is: " + (temp.getValue() - 626) / 3.55));
+        System.out.println(("The angle of incline is: " + ((temp.getValue() - 635.56) / 3.55)));
     }
 }
