@@ -1,4 +1,3 @@
-//13.3V
 import rxtxrobot.*;
 
 public class Quadrant4Auto {
@@ -8,6 +7,7 @@ public class Quadrant4Auto {
                 r = new ArduinoUno();
 		r.setPort("COM3"); 
 		r.connect();
+		/*
 		r.runTwoPCAMotor(14, 200, 15, -200, 6000);
                 r.runPCAServo(9, 45);
                 r.runPCAServo(8, 0);
@@ -18,22 +18,23 @@ public class Quadrant4Auto {
                 r.sleep(800);
                 r.runTwoPCAMotor(14, 235, 15, -200, 400); //drive to temp site (400 at 13.2V)
                 r.sleep(3000);
-                RotateRobotPositive(185); //adjust for temp site
+                RotateRobotPositive(225); //adjust for temp site (185 at 13.3V, 225 at 13.8V)
                 r.sleep(500);
                 r.runTwoPCAMotor(14, 235, 15, -200, 600); //finsih driving to temp site
                 r.sleep(1500);
+                */
                 r.runPCAServo(8, 180);
                 r.sleep(3000);
-                double celsius = (getThermistorReading() - 677.7186471)/-6.93063423; 
+                double celsius = (getThermistorReading() - 700.7186471)/-6.93063423; //(700 = 25.79 degrees)
                 System.out.printf("In Degrees Celsius: %.2f\n", celsius);
                 r.runPCAServo(8, 0);
                 
                 r.sleep(1000);
                 r.runTwoPCAMotor(14, -215, 15, 260, 160); //back up a little
                 r.sleep(1000);
-                RotateRobotNegative(300); //roatte less than 90 so it can start to find 'N' at a closer distance; aka drive diagonally across the quadrant
+                RotateRobotNegative(250); //(300 at 13.3 V, 250 at 13.7 V) roatte less than 90 so it can start to find 'N' at a closer distance; aka drive diagonally across the quadrant
                 r.sleep(1000);
-                r.runTwoPCAMotor(14, 235, 15, -180, 3350); //drive forwards to wall (2850 at 13.7V, 3050 at 13.2V, 3350 at 13.1V)
+                r.runTwoPCAMotor(14, 235, 15, -180, 2450); //drive forwards to wall (2450 at 13.7V, 3050 at 13.2V, 3350 at 13.1V)
                 r.sleep(2000);
                 
                 FindBeaconPos('N'); //find n
@@ -41,16 +42,15 @@ public class Quadrant4Auto {
                 r.sleep(5000);
               
                 r.runTwoPCAMotor(14, -215, 15, 260, 55); //back up a little but
-		RotateRobotPositive(950); //rotatte to face bridge
+		RotateRobotPositive(990); //rotatte to face bridge (950 at 13.3V, 970 at 13.8)
 		r.sleep(2000);
                 r.runTwoPCAMotor(14, -215, 15, 260, 30); //set up to drive over bridg (backwards)
                 r.sleep(500); 
                 r.runTwoPCAMotor(14, 235, 15, -200, 100); //setting up for drive over bridge (forwards)
-                  r.runTwoPCAMotor(14, 235, 15, -200, 25);
-                r.sleep(500);
+               
                 r.runTwoPCAMotor(14, 400, 15, -425, 25); //get over ledge
                 r.sleep(500);
-                r.runTwoPCAMotor(14, 450, 15, -520, 1000);
+                r.runTwoPCAMotor(14, 550, 15, -720, 1000);
                 r.sleep(1000);                
                 r.runTwoPCAMotor(14, 235, 15, -200, 900);
                 r.sleep(500);
