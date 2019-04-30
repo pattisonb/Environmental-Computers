@@ -10,17 +10,18 @@ public class Quadrant2Auto {
                  r.runPCAServo(9, 45);//lift up the arm
                    r.sleep(300);
                 
-                //Navigating to the rescuing zone
+                //FIRST MOVE GO STRAIGHT
                 r.runTwoPCAMotor(14, 200, 15, -150, 3100);//go straight
                 r.sleep(1500);
-                RotateRobotPositive(150);//turn right
+                RotateRobotPositive(180);//turn right
                 r.sleep(1500);
                 r.runTwoPCAMotor(14, 220, 15, -160, 100);//go forward a little bit
                 r.sleep(2000);
                 FindBeacon('S');//try to find s
                 r.sleep(2000);
                 
-                //Go to the rescuing zone (4 senarios)
+                //GO TO THE RESCUING ZONE (4 senarios)
+                //MIGHT NEED TO DECREASE MOTOR SPEED
                 //at 13.3V - 13.5V
                 
                 //1
@@ -36,16 +37,20 @@ public class Quadrant2Auto {
                 */
                 
                 //3
-                /*RotateRobotPositive(95);//turn right
+                RotateRobotPositive(85);//turn right
                 r.sleep(750);
                 r.runTwoPCAMotor(14, 215, 15, -175, 1400);//go to the rescuing zone            
-                */
+                
                 
                 //4
-                RotateRobotPositive(120);//turn right
+                /*RotateRobotPositive(120);//turn right
                 r.sleep(750);
                 r.runTwoPCAMotor(14, 215, 15, -175, 1600);//go to the rescuing zone            
-
+*/
+                
+                
+                
+                
                 r.sleep(200);
                 r.runTwoPCAMotor(14, 225, 15, -200, 700);
                 r.sleep(1000);
@@ -53,10 +58,14 @@ public class Quadrant2Auto {
                 r.runPCAServo(9, 180);//close the arm (secure the salamanders)                
                 r.sleep(1000);
 
+                //GO BACKWARDS: MIGHT NEED TO INCREASE OR DECREASE TIME
                 r.runTwoPCAMotor(14, -235, 15, 235, 2400);//go backwards (2200 at 13.5V)
                 r.sleep(2000);
+                
+                //ROTATE TO G: MIGHT NEED TO INCREASE OR DECREASE TURN ANGLE
                 RotateRobotPositive(230);//rotate and go forward so that it's easier to find g
                 r.sleep(2000);
+                
                 r.runTwoPCAMotor(14, 235, 15, -235, 100);
                 r.sleep(2000);
                 FindBeacon('G');//find g
