@@ -9,12 +9,11 @@ public class Quadrant3Auto {
         
 		r.setPort("COM3"); 
 		r.connect();      
-		
 		int distance;
                 int PING_PIN = 9;
                 int INC_PIN = 1;
 ////                
-                r.runTwoPCAMotor(14, -145, 15, 220, 1100); //move straight
+                r.runTwoPCAMotor(14, -145, 15, 220, 1200); //move straight
 //                //first task: navigate through movebale gaps
                 
                 //going through the first gap
@@ -23,25 +22,42 @@ public class Quadrant3Auto {
                 }//find gap using ping sensor
 //                r.runTwoPCAMotor(14, 235, 15, -235, 150);
 //                r.sleep(200);
+                
+                
+                //FIRST CINDERBLOCK TURN LEFT
+                //FIX THIS!!!!!!!!!!
                 RotateRobotNegative(350);//Turn left through the gap (350 at 13.3V, 390 at 13.0V)
+              
                 r.sleep(700);
-                r.runTwoPCAMotor(14, 245, 15, -260, 540); //Go through the gap (620 at 13.5)
+                r.runTwoPCAMotor(14, 245, 15, -260, 580); //Go through the gap (620 at 13.5)
                 r.sleep(2000);
-                RotateRobotPositive(900); //turn right (900 at 13.3V)
+                
+                //FIRST CINDERBLOCK TURN RIGHT
+                //FIX THIS!!!!!!!
+                RotateRobotPositive(850); //turn right (900 at 13.3V)
                 r.sleep(2000);
                 r.runTwoPCAMotor(14, 275, 15, -275, 500); //go straight
-               
+ 
+                
                 //Going through the second gap
                 while (r.getPing(PING_PIN) <= 40) {
                     r.runTwoPCAMotor(14, 175, 15, -125, 200);//move forward for x amount of time
                 }//find gap using ping sensor
                 r.sleep(1000);
-                RotateRobotNegative(885);//turn left (885 at 13.1V)
-                r.runTwoPCAMotor(14, 235, 15, -235, 1750);//go through the gap
+                
+                //SECOND CINDERBLOCK TURN LEFT
+                //FIX THIS
+                RotateRobotNegative(865);//turn left (885 at 13.1V)
+                r.runTwoPCAMotor(14, 235, 15, -255, 1450);//go through the gap
                 r.sleep(2000);
-                RotateRobotPositive(250);//turn right
+                
+                
+                
+                
+                //TURN RIGHT OUT OF SECOND CINDERBLOCK
+                RotateRobotPositive(270);//turn right
                 r.sleep(2000);
-                r.runTwoPCAMotor(14, 235, 15, -235, 500);//go right for a little so that robot can turn and find beacon
+                r.runTwoPCAMotor(14, 235, 15, -235, 600);//go right for a little so that robot can turn and find beacon
                 r.sleep(4000);
                 FindBeacon('Y');//find beacon
                 //r.runTwoPCAMotor(14, -174, 15, 125, 500);//go up the ramp
@@ -87,6 +103,6 @@ r.close();
             sum += temp.getValue();
         }
         average = sum / 5;
-        System.out.println(("The angle of incline is: " + ((temp.getValue() - 635.56) / 3.55)));
+        System.out.println(("The angle of incline is: " + ((temp.getValue() - 670.56) / 3.55)));
     }
 }
