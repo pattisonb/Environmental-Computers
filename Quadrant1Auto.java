@@ -24,8 +24,8 @@ public class Quadrant1Auto {
 //				r.sleep(1000);
 				
 				//****ADJUSTING AND FINDING BEACON****
-				//r.runTwoPCAMotor(14, 230, 15, -182, 1500);
-                //r.sleep(2000);
+				r.runTwoPCAMotor(14, 230, 15, -182, 1500);
+                r.sleep(2000);
                 r.runTwoPCAMotor(14, -175, 15, 203, 200);
                 r.sleep(1000);
        
@@ -42,7 +42,6 @@ public class Quadrant1Auto {
                 
                 
                 
-                //THIS IS IF IT GETS AT THE TOP OF THE FREAKING VOLCANO.
                 RotateRobotPositive(1350);
                 r.runTwoPCAMotor(14, 430, 15, -480, 2000);
                 RotateRobotPositive(750);
